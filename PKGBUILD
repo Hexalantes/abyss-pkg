@@ -8,7 +8,7 @@ url="https://github.com/Hexalantes/abyss-pkg"
 license=('GPL')
 depends=('bash' 'curl' 'wget' 'tar' 'git' 'zstd' 'libarchive' 'coreutils' 'jq' 'pacman' 'sudo' 'xz' 'base-devel')
 conflicts=('pkg')
-source=('pkg')
+source=('pkg.sh')
 md5sums=('SKIP')
 
 package() {
