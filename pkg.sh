@@ -123,9 +123,9 @@ case "$CMD" in
       done
     else
       for pkg in "${PACKAGES[@]}"; do
-        echo "Trying to install package '$pkg' from official repos..."
+        echo "Trying to install package '$pkg' from Pacman repos..."
         if doas pacman -S --noconfirm "$pkg"; then
-          echo "Package '$pkg' installed successfully from official repo."
+          echo "Package '$pkg' installed successfully from Pacman repo."
         else
 	  echo "Wait for AUR checking... '$pkg'"
           if [[ $EUID -eq 0 ]]; then
