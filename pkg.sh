@@ -2,7 +2,7 @@
 set -e
 
 if [[ $# -eq 0 ]]; then
-    echo "Commands: help, usage, install, add, remove, delete, upgrade, update, installaur, installarch, search, info, query, version,"
+    echo "Usage: help, usage, install, add, remove, delete, upgrade, update, installaur, installarch, search, info, query, version,"
     echo "autoremove, clean, check, verify, stats, reinstall, orphans, whatdepends, changelog, files, owns, extract, lock, unlock"
 fi
 
@@ -285,7 +285,7 @@ case "$CMD" in
     usage
     ;;
   *)
-    echo "Commands: help, usage, install, add, remove, delete, upgrade, update, installaur, installarch, search, info, query, version,"
+    echo "Usage: help, usage, install, add, remove, delete, upgrade, update, installaur, installarch, search, info, query, version,"
     echo "autoremove, clean, check, verify, stats, reinstall, orphans, whatdepends, changelog, files, owns, extract, lock, unlock"
     ;;
 
