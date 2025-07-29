@@ -42,7 +42,7 @@ aur_install() {
   echo "Installing from AUR..."
   git clone "https://aur.archlinux.org/${pkgname}.git" "$tempdir" || { echo "Failed to clone AUR repo."; rm -rf "$tempdir"; return 1; }
   cd "$tempdir"
-  makepkg -si --noconfirm
+  makepkg -si 
   cd -
   rm -rf "$tempdir"
 }
@@ -54,7 +54,7 @@ install_local() {
     exit 1
   fi
   echo "Installing local package file '$pkgfile'..."
-  doas pacman -U --noconfirm "$pkgfile"
+  pacman -U "$pkgfile"
 }
 
 usage() {
@@ -124,7 +124,7 @@ case "$CMD" in
     else
       for pkg in "${PACKAGES[@]}"; do
         echo "Trying to install package '$pkg' from Pacman repos..."
-        if doas pacman -S --noconfirm "$pkg"; then
+        if -S "$pkg"; then
           echo "Package '$pkg' installed successfully from Pacman repo."
         else
 	  echo "Wait for AUR checking... '$pkg'"
@@ -150,7 +150,7 @@ case "$CMD" in
   installarch|-iar|addarch)
     for pkg in "${PACKAGES[@]}"; do
       echo "Trying to install package '$pkg' from official repos..."
-      if doas pacman -S --noconfirm "$pkg"; then
+      if pacman -S "$pkg"; then
         echo "Package '$pkg' installed successfully from official repo."
       else
 	echo "Package '$pkg' could not be installed from official repo." >&2
@@ -159,20 +159,20 @@ case "$CMD" in
     done
     ;;
   remove|delete|-r)
-    doas pacman -R --noconfirm "${PACKAGES[@]}"
+    pacman -R "${PACKAGES[@]}"
     ;;
   upgrade|-U)
     if [[ ${#PACKAGES[@]} -eq 0 ]]; then
-      doas pacman -Syu --noconfirm
+      pacman -Syu
     else
       for pkg in "${PACKAGES[@]}"; do
         echo "Updating package '$pkg'..."
-        doas pacman -Sy --noconfirm "$pkg"
+        pacman -Sy "$pkg"
       done
     fi
     ;;
   update|-u)
-    doas pacman -Sy --noconfirm
+    pacman -Sy
     ;;
   search|-s)
     if [[ "${PACKAGES[1]}" == "-a" || "${PACKAGES[1]}" == "--aur" ]]; then
@@ -187,26 +187,26 @@ case "$CMD" in
     pacman -Si "${PACKAGES[@]}"
     ;;
   autoremove)
-    doas pacman -Rns $(pacman -Qtdq) || echo "No orphaned packages to remove."
+    pacman -Rns $(pacman -Qtdq) || echo "No orphaned packages to remove."
     ;;
   clean)
-    doas pacman -Sc --noconfirm
+    pacman -Sc
     ;;
   check)
-    doas pacman -Qk
+    pacman -Qk
     ;;
   audit)
     echo "Audit command is not supported by pacman."
     ;;
   lock)
     for pkg in "${PACKAGES[@]}"; do
-      doas bash -c "echo $pkg >> /etc/pacman.d/holdlist"
+      bash -c "echo $pkg >> /etc/pacman.d/holdlist"
     done
     echo "Packages locked: ${PACKAGES[*]}"
     ;;
   unlock)
     for pkg in "${PACKAGES[@]}"; do
-      doas sed -i "/^$pkg$/d" /etc/pacman.d/holdlist
+      sed -i "/^$pkg$/d" /etc/pacman.d/holdlist
     done
     echo "Packages unlocked: ${PACKAGES[*]}"
     ;;
@@ -230,7 +230,7 @@ case "$CMD" in
     ;;
   fetch)
     for pkg in "${PACKAGES[@]}"; do
-      doas pacman -Sw "$pkg"
+      pacman -Sw "$pkg"
     done
     ;;
   files)
@@ -250,7 +250,7 @@ case "$CMD" in
     ;;
   reinstall)
     for pkg in "${PACKAGES[@]}"; do
-      doas pacman -S --noconfirm "$pkg"
+      pacman -S "$pkg"
     done
     ;;
   orphans)
@@ -278,7 +278,7 @@ case "$CMD" in
     echo "Orphans: $(pacman -Qtdq | wc -l)"
     ;;
   verify)
-    doas pacman -Qk "${PACKAGES[@]}"
+    pacman -Qk "${PACKAGES[@]}"
     ;;
 
   help|usage|-h|--help)
