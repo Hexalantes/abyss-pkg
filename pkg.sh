@@ -124,7 +124,7 @@ case "$CMD" in
     else
       for pkg in "${PACKAGES[@]}"; do
         echo "Trying to install package '$pkg' from Pacman repos..."
-        if -S "$pkg"; then
+        if pacman -S "$pkg"; then
           echo "Package '$pkg' installed successfully from Pacman repo."
         else
 	  echo "Wait for AUR checking... '$pkg'"
