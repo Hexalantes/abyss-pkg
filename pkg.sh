@@ -151,9 +151,9 @@ case "$CMD" in
     for pkg in "${PACKAGES[@]}"; do
       echo "Trying to install package '$pkg' from official repos..."
       if pacman -S "$pkg"; then
-        echo "Package '$pkg' installed successfully from official repo."
+        echo "Package '$pkg' installed successfully from Pacman repo."
       else
-	echo "Package '$pkg' could not be installed from official repo." >&2
+	echo "Package '$pkg' could not be installed from Pacman repo." >&2
 	exit 1
       fi
     done
