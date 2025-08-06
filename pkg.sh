@@ -1,9 +1,9 @@
 #!/bin/bash
 set -e
 
-if [[ $# -eq 0 ]]; then
-    echo "Usage: help, usage, install, add, remove, delete, upgrade, update, installaur, installarch, search, info, query, version,"
-    echo "autoremove, clean, check, verify, stats, reinstall, orphans, whatdepends, changelog, files, owns, extract, lock, unlock"
+if [[ $# -eq 0 ]]; then    
+    echo "Usage: help, usage, install, add, remove, delete, upgrade, update, installaur, installpac, search, info, query, version, autoremove,"
+    echo "clean, check, verify, stats, reinstall, orphans, whatdepends, changelog, files, owns, extract, lock, unlock, arch, artix"
 fi
 
 CMD="$1"
@@ -70,9 +70,9 @@ usage() {
   echo "  update              Sync package database (pacman -Sy)"
   echo "  help                Show this"
   echo "  installaur          Install package(s) from only AUR"
-  echo "  installarch         Install package(s) from only official repository."
-  echo "  arch                Swap Pacman config file to pre-config file that enables Arch Linux extra repository"
-  echo "  noarch              Turn back to pacman.conf that you previously used."
+  echo "  installpac          Install package(s) from only Pacman repositories."
+  echo "  arch                Reset Pacman config to default one that enables Arch/Extra & Arch/Multilib repositories"
+  echo "  artix               Reset Pacman config to default one that enables only Artix repositories"
   echo "Search & Info:"
   echo "  search <pkg>        Search in official repos"
   echo "  search <pkg> -a     Search in AUR"
@@ -149,7 +149,7 @@ case "$CMD" in
       aur_install "$pkg"
     done
     ;;
-  installarch|-iar|addarch)
+  installpac|-ip|addpac)
     for pkg in "${PACKAGES[@]}"; do
       echo "Trying to install package '$pkg' from official repos..."
       if pacman -S "$pkg"; then
@@ -283,20 +283,19 @@ case "$CMD" in
     pacman -Qk "${PACKAGES[@]}"
     ;;
   arch)
-    rm -f /etc/pacman.d/archtmp
-    cp /etc/pacman.conf /etc/pacman.d/archtmp
     rm -f /etc/pacman.conf
     cp /etc/pacman.d/conffiles/arch.conf /etc/pacman.conf
     ;;
   artix)
-    cp /etc/pacman.conf /etc/pacman.d/artixtmp
-    
+    rm -f /etc/pacman.conf
+    cp /etc/pacman.d/conffiles/artix.conf /etc/pacman.conf
+    ;;
   help|usage|-h|--help)
     usage
     ;;
   *)
-    echo "Usage: help, usage, install, add, remove, delete, upgrade, update, installaur, installarch, search, info, query, version, autoremove,"
-    echo "clean, check, verify, stats, reinstall, orphans, whatdepends, changelog, files, owns, extract, lock, unlock, arch, artix, noarch, noartix"
+    echo "Usage: help, usage, install, add, remove, delete, upgrade, update, installaur, installpac, search, info, query, version, autoremove,"
+    echo "clean, check, verify, stats, reinstall, orphans, whatdepends, changelog, files, owns, extract, lock, unlock, arch, artix"
     ;;
 
 esac
