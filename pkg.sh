@@ -73,6 +73,7 @@ usage() {
   echo "  installpac          Install package(s) from only Pacman repositories."
   echo "  arch                Reset Pacman config to default one that enables Arch/Extra & Arch/Multilib repositories"
   echo "  artix               Reset Pacman config to default one that enables only Artix repositories"
+  echo ""
   echo "Search & Info:"
   echo "  search <pkg>        Search in official repos"
   echo "  search <pkg> -a     Search in AUR"
